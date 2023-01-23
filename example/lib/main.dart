@@ -42,7 +42,7 @@ class _MyAppState extends State<MyApp> {
                     const CropRect(scaleHeight: 0.7, scaleWidth: 0.7),
                     onScan: (code) {
                       setState(() {
-                        _barcode = code['displayValue'];
+                        _barcode = code;
                       });
                     },
                     onScannerInitialized: (controller) =>

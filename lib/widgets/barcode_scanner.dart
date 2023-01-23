@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:mlkit_scanner/mlkit_scanner.dart';
+import 'package:mlkit_scanner/models/barcode.dart';
 import 'package:mlkit_scanner/models/recognition_type.dart';
 import 'package:mlkit_scanner/platform/ml_kit_channel.dart';
 import 'package:mlkit_scanner/widgets/camera_preview.dart';
@@ -12,8 +13,11 @@ typedef BarcodeScannerInitializeCallback = void Function(
 
 /// Widget for scanning barcodes using MLkit Barcode Scanning.
 class BarcodeScanner extends StatefulWidget {
-  /// Callback with barcode scanning result, when scanner detect a barcode.
-  final ValueChanged<Map> onScan;
+  /// Callback with barcode rawValue result, when scanner detect a barcode.
+  final ValueChanged<String> onScan;
+
+  /// Callback with barcode indo scanning result, when scanner detect a barcode.
+  final ValueChanged<Barcode>? onScanDetail;
 
   /// Callback on success scanner initialize, with [BarcodeScannerController] for control camera and detection.
   final BarcodeScannerInitializeCallback onScannerInitialized;
@@ -35,6 +39,7 @@ class BarcodeScanner extends StatefulWidget {
     this.cropOverlay,
     this.onCameraInitializeError,
     this.onChangeFlashState,
+    this.onScanDetail,
     Key? key,
   }) : super(key: key);
 
@@ -103,13 +108,18 @@ class _BarcodeScannerState extends State<BarcodeScanner> {
     final scanStream =
     await _channel.startScan(RecognitionType.barcodeRecognition, delay);
     _scanStreamSubscription?.cancel();
-    _scanStreamSubscription = scanStream.listen(widget.onScan);
+
+    _scanStreamSubscription =
+        scanStream.listen((event) {widget.onScan(event['rawValue']);
+          (widget.onScanDetail!=null)?widget.onScanDetail!(Barcode.fromJson(event)):null;});
+
   }
 
   Future<void> _cancelScan() async {
     await _channel.cancelScan();
     _scanStreamSubscription?.cancel();
     _scanStreamSubscription = null;
+
   }
 
   Future<void> _setDelay(int delay) {
