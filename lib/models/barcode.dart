@@ -166,11 +166,11 @@ class Barcode {
   });
 
   /// Returns an instance of [Barcode] from a given [json].
-  factory Barcode.fromJson(Map<dynamic, dynamic> json) {
-    final type = BarcodeType.values[json['type']??0.toInt()];
-    final format = BarcodeFormatValue.fromRawValue(json['format']);
-    final displayValue = json['displayValue'];
-    final rawValue = json['rawValue'];
+  factory Barcode.fromMap(Map<dynamic, dynamic> map) {
+    final type = BarcodeType.values[map['type']??0.toInt()];
+    final format = BarcodeFormatValue.fromRawValue(int.parse(map['format']));
+    final displayValue = map['displayValue'];
+    final rawValue = map['rawValue'];
 
 
     return Barcode(
