@@ -39,14 +39,14 @@ class _MyAppState extends State<MyApp> {
                   height: 200,
                   child: BarcodeScanner(
                     cropOverlay:
-                        const CropRect(scaleHeight: 0.7, scaleWidth: 0.7),
+                    const CropRect(scaleHeight: 0.7, scaleWidth: 0.7),
                     onScan: (code) {
                       setState(() {
-                        _barcode = code;
+                        _barcode = code['displayValue'];
                       });
                     },
                     onScannerInitialized: (controller) =>
-                        _controller = controller,
+                    _controller = controller,
                   ),
                 ),
                 Align(
@@ -174,10 +174,10 @@ class _MyAppState extends State<MyApp> {
             return _delayOptions.entries
                 .map(
                   (entry) => PopupMenuItem(
-                    value: entry.value,
-                    child: Text(entry.key),
-                  ),
-                )
+                value: entry.value,
+                child: Text(entry.key),
+              ),
+            )
                 .toList();
           },
         ),

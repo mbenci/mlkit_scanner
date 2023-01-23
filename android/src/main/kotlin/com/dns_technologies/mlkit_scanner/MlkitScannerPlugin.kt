@@ -60,11 +60,11 @@ class MlkitScannerPlugin: FlutterPlugin, MethodCallHandler, ActivityAware, Lifec
     channel = MethodChannel(flutterPluginBinding.binaryMessenger, PluginConstants.channelName)
     channel.setMethodCallHandler(this)
     flutterPluginBinding
-            .platformViewRegistry
-            .registerViewFactory(PluginConstants.cameraPlatformViewName, 
-              CameraViewFactory {
-                cameraView = it
-              })
+      .platformViewRegistry
+      .registerViewFactory(PluginConstants.cameraPlatformViewName,
+        CameraViewFactory {
+          cameraView = it
+        })
   }
 
   override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: Result) {
@@ -117,8 +117,8 @@ class MlkitScannerPlugin: FlutterPlugin, MethodCallHandler, ActivityAware, Lifec
         initCamera()
       } else {
         initialMethodResult?.error(PluginError.AuthorizationCameraError.errorCode,
-                "The app does not have camera permission",
-                null)
+          "The app does not have camera permission",
+          null)
         initialMethodResult = null
       }
     }
@@ -146,14 +146,14 @@ class MlkitScannerPlugin: FlutterPlugin, MethodCallHandler, ActivityAware, Lifec
 
   private fun invokeToggleFlash(result: Result) {
     if (checkCameraActiveStatus(result,
-                    "You need to invoke the \'initCameraPreview\' method before using flash")) {
+        "You need to invoke the \'initCameraPreview\' method before using flash")) {
       try {
         camera?.toggleFlashLight()
         result.success(true)
       } catch (e: HasNoFlashUnitException) {
         result.error(PluginError.DeviceHasNotFlash.errorCode,
-                "Device has no flash",
-                null)
+          "Device has no flash",
+          null)
       }
     }
   }
@@ -187,8 +187,8 @@ class MlkitScannerPlugin: FlutterPlugin, MethodCallHandler, ActivityAware, Lifec
     val delay = call.arguments
     if (delay !is Number) {
       result.error(PluginError.InvalidArguments.errorCode,
-              "Invalid argument passed, Number type is expected",
-              null)
+        "Invalid argument passed, Number type is expected",
+        null)
       return
     }
     analyzer?.updatePeriod(delay as Int)
@@ -204,9 +204,6 @@ class MlkitScannerPlugin: FlutterPlugin, MethodCallHandler, ActivityAware, Lifec
   }
 
   private fun initCamera() {
-    // When rebuilding a widget, dispose() is not called,
-    // which causes situations where initCamera() can be called multiple times.
-    scannerOverlay = null
     cameraLifecycle = CameraLifecycle()
     createScannerCamera()
     cameraLifecycle!!.resume()
@@ -237,8 +234,8 @@ class MlkitScannerPlugin: FlutterPlugin, MethodCallHandler, ActivityAware, Lifec
   private fun onInitError(e: Exception) {
     Log.e(TAG, e.toString())
     initialMethodResult?.error(PluginError.InitCameraError.errorCode,
-            "Internal camera initialisation error",
-            e.message)
+      "Internal camera initialisation error",
+      e.message)
     initialMethodResult = null
   }
 
@@ -287,9 +284,9 @@ class MlkitScannerPlugin: FlutterPlugin, MethodCallHandler, ActivityAware, Lifec
   }
 
   private fun requestAllPermission() = ActivityCompat.requestPermissions(
-          binding.activity,
-          PermissionsConstants.REQUIRED_PERMISSIONS,
-          PermissionsConstants.REQUEST_CODE_PERMISSIONS)
+    binding.activity,
+    PermissionsConstants.REQUIRED_PERMISSIONS,
+    PermissionsConstants.REQUEST_CODE_PERMISSIONS)
 
   private fun updateCropOptions(cropRect: RecognizeVisorCropRect) {
     val screenSize = getDisplaySize()
@@ -307,7 +304,7 @@ class MlkitScannerPlugin: FlutterPlugin, MethodCallHandler, ActivityAware, Lifec
     }
   }
 
-  private fun onScan(barcode: Any) = channel.invokeMethod(PluginConstants.scanResultMethod, barcode as String)
+  private fun onScan(barcode: Any) = channel.invokeMethod(PluginConstants.scanResultMethod, barcode)
 
   @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
   private fun onResume() {

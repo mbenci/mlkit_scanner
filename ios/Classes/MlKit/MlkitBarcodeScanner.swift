@@ -47,9 +47,16 @@ class MlkitBarcodeScanner: NSObject, RecognitionHandler {
             guard let features = features, !features.isEmpty else {
                 return
             }
-            // TODO: Возвращать все штрих-коды, использовать модель вместо String
-            guard let value = features.first?.rawValue else { return }
-            self?.delegate?.onRecognition(result: value)
+            guard let rawValue = features.first?.rawValue else { return }
+            guard let displayValue = features.first?.displayValue else { return }
+            guard let format = features.first?.format.rawValue else { return }
+            guard let valueType = features.first?.valueType.rawValue else { return }
+
+            /* print("externalInternalShared: \(features.first?.rawValue) : \(features.first?.displayValue)") */
+
+            var barcode:[String:String] = ["rawValue":String(rawValue), "displayValue":String(displayValue), "format":String(format), "valueType":String(valueType) ]
+
+            self?.delegate?.onRecognition(result: barcode)
         }
     }
     

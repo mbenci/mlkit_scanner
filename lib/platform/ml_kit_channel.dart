@@ -22,8 +22,10 @@ class MlKitChannel {
 
   static MlKitChannel? _instance;
   final MethodChannel _channel = const MethodChannel('mlkit_channel');
-  final StreamController<String> _scanResultStreamController = StreamController<String>.broadcast();
-  final StreamController<bool> _torchToggleStreamController = StreamController<bool>.broadcast();
+  final StreamController<Map> _scanResultStreamController =
+  StreamController<Map>.broadcast();
+  final StreamController<bool> _torchToggleStreamController =
+  StreamController<bool>.broadcast();
 
   /// Stream inform when torch change state.
   ///
@@ -37,9 +39,10 @@ class MlKitChannel {
 
   MlKitChannel._() {
     _channel.setMethodCallHandler((call) async {
-      if (call.method == _scanResultMethod && call.arguments is String) {
+      if (call.method == _scanResultMethod && call.arguments is Map) {
         _scanResultStreamController.add(call.arguments);
-      } else if (call.method == _changeTorchStateMethod && call.arguments is bool) {
+      } else if (call.method == _changeTorchStateMethod &&
+          call.arguments is bool) {
         _torchToggleStreamController.add(call.arguments);
       }
     });
@@ -73,7 +76,7 @@ class MlKitChannel {
   /// `delay` -  delay in milliseconds between detection for decreasing CPU consumption.
   /// Detection happens every [delay] milliseconds, skipping frames during delay
   /// Can throw [PlatformException] if camera is not initialized.
-  Future<Stream<String>> startScan(RecognitionType type, int delay) async {
+  Future<Stream<Map>> startScan(RecognitionType type, int delay) async {
     final args = {
       'type': type.rawValue,
       'delay': delay,
