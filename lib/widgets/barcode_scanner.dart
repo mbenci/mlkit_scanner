@@ -111,7 +111,7 @@ class _BarcodeScannerState extends State<BarcodeScanner> {
 
     _scanStreamSubscription =
         scanStream.listen((event) {widget.onScan(event['rawValue']);
-          (widget.onScanDetail!=null)?widget.onScanDetail!(Barcode.fromJson(event)):null;});
+          widget.onScanDetail?.call(Barcode.fromJson(event));});
 
   }
 
