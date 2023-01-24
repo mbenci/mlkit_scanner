@@ -11,7 +11,7 @@ import AVFoundation
 /// Delegate of the recognition results.
 protocol RecognitionResultDelegate: AnyObject {
     /// Call delegate on success recognition.
-    func onRecognition(result: Dictionary<String,String>)
+    func onRecognition(result: Dictionary<String,Any>)
     
     /// Call delegate on recognition error.
     func onError(error: Error)

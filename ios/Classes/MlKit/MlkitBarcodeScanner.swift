@@ -54,7 +54,7 @@ class MlkitBarcodeScanner: NSObject, RecognitionHandler {
 
             /* print("externalInternalShared: \(features.first?.rawValue) : \(features.first?.displayValue)") */
 
-            var barcode:[String:String] = ["rawValue":String(rawValue), "displayValue":String(displayValue), "format":String(format), "valueType":String(valueType) ]
+            var barcode:[String:Any] = ["rawValue":String(rawValue), "displayValue":String(displayValue), "format":format, "valueType":valueType ]
 
             self?.delegate?.onRecognition(result: barcode)
         }

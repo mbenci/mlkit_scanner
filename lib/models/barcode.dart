@@ -85,7 +85,7 @@ extension BarcodeFormatValue on BarcodeFormat {
 
   static BarcodeFormat fromRawValue(int rawValue) {
     return BarcodeFormat.values.firstWhere(
-            (element) => element.rawValue == rawValue,
+        (element) => element.rawValue == rawValue,
         orElse: () => BarcodeFormat.unknown);
   }
 }
@@ -167,11 +167,10 @@ class Barcode {
 
   /// Returns an instance of [Barcode] from a given [json].
   factory Barcode.fromMap(Map<dynamic, dynamic> map) {
-    final type = BarcodeType.values[map['type']??0.toInt()];
-    final format = BarcodeFormatValue.fromRawValue(int.parse(map['format']));
+    final type = BarcodeType.values[map['type'] ?? 0.toInt()];
+    final format = BarcodeFormatValue.fromRawValue(map['format']);
     final displayValue = map['displayValue'];
     final rawValue = map['rawValue'];
-
 
     return Barcode(
       type: type,

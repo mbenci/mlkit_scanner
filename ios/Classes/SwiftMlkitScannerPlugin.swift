@@ -218,7 +218,7 @@ extension SwiftMlkitScannerPlugin: FlutterPlatformViewFactory {
 
 extension SwiftMlkitScannerPlugin: RecognitionResultDelegate {
     
-    func onRecognition(result: Dictionary<String,String>) {
+    func onRecognition(result: Dictionary<String,Any>) {
         channel.invokeMethod(PluginConstants.scanResultMethod, arguments: result)
     }
     
