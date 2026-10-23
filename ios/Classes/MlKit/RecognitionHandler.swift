@@ -7,12 +7,11 @@
 
 import Foundation
 import AVFoundation
-import MLKitBarcodeScanning
 
 /// Delegate of the recognition results.
 protocol RecognitionResultDelegate: AnyObject {
-    /// Call delegate on success recognition.
-    func onRecognition(result: Barcode)
+    /// Call delegate on success recognition, `result` is the barcode json for the platform channel.
+    func onRecognition(result: [String: Any?])
     
     /// Call delegate on recognition error.
     func onError(error: Error)

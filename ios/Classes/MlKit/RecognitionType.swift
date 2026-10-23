@@ -20,7 +20,7 @@ extension RecognitionType {
     func createRecognitionHandler(delay: Int, cropRect: CropRect?) -> RecognitionHandler {
         switch self {
         case .barcodeRecognition:
-            return MlkitBarcodeScanner(delay: delay, cropRect: cropRect)
+            return VisionBarcodeScanner(delay: delay, cropRect: cropRect)
         }
     }
 }

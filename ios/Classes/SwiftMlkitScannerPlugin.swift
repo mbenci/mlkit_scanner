@@ -1,8 +1,6 @@
 import Flutter
 import AVFoundation
 import UIKit
-import MLKitBarcodeScanning
-import MLKitVision
 
 public class SwiftMlkitScannerPlugin: NSObject, FlutterPlugin {
     
@@ -279,8 +277,8 @@ extension SwiftMlkitScannerPlugin: FlutterPlatformViewFactory {
 
 extension SwiftMlkitScannerPlugin: RecognitionResultDelegate {
     
-    func onRecognition(result: Barcode) {
-        channel.invokeMethod(PluginConstants.scanResultMethod, arguments: result.toJson())
+    func onRecognition(result: [String: Any?]) {
+        channel.invokeMethod(PluginConstants.scanResultMethod, arguments: result)
     }
     
     func onError(error: Error) {
