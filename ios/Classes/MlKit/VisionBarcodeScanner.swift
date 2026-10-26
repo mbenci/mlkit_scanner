@@ -111,8 +111,13 @@ class VisionBarcodeScanner: NSObject, RecognitionHandler {
 
     /// Creates json for transmission over the platform channel, same keys as the former MLKit `Barcode.toJson()`.
     private static func toJson(_ barcode: VNBarcodeObservation) -> [String: Any?] {
-        let value = barcode.payloadStringValue!
-        let format = formatCodes[barcode.symbology] ?? 0
+        var value = barcode.payloadStringValue!
+        var format = formatCodes[barcode.symbology] ?? 0
+        // Vision has no UPC-A symbology and reports it as EAN-13 with a leading 0: MLKit returns 12 digits as UPC-A.
+        if barcode.symbology == .ean13 && value.count == 13 && value.hasPrefix("0") {
+            value.removeFirst()
+            format = 512
+        }
         return [
             "raw_value": value,
             "display_value": value,
@@ -124,7 +129,7 @@ class VisionBarcodeScanner: NSObject, RecognitionHandler {
     /// Codes of `BarcodeValueTypeCode`: product (5) for EAN/UPC, url (8), otherwise text (7).
     // ponytail: Vision does not parse the payload like MLKit (wifi, contact, ...), add a parser if those types are needed.
     private static func valueType(value: String, format: Int) -> Int {
-        if [32, 64, 1024].contains(format) {
+        if [32, 64, 512, 1024].contains(format) {
             return 5
         }
         if let scheme = URL(string: value)?.scheme?.lowercased(), scheme == "http" || scheme == "https" {
