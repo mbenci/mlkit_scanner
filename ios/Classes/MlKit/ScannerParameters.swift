@@ -20,9 +20,10 @@ struct ScannerParameters {
     let camera: CameraData?
     
     init(arguments: Dictionary<String, Any?>) {
-        let zoom = arguments["initialZoom"] as! Double?
-        let cropRect = arguments["initialCropRect"] as! Dictionary<String, CGFloat>?
-        let camera = arguments["initialCamera"] as! Dictionary<String, Any?>?
+        // Flutter passes Dart nulls as NSNull: a forced cast to Optional crashes, `as?` yields nil.
+        let zoom = arguments["initialZoom"] as? Double
+        let cropRect = arguments["initialCropRect"] as? Dictionary<String, CGFloat>
+        let camera = arguments["initialCamera"] as? Dictionary<String, Any?>
         
         self.zoom = zoom
         self.cropRect = cropRect != nil ? CropRect(arguments: cropRect!): nil
