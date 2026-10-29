@@ -5,6 +5,7 @@
 //  Created by ООО "ДНС Технологии" on 04.03.2021.
 //
 
+import Flutter
 import UIKit
 import AVFoundation
 

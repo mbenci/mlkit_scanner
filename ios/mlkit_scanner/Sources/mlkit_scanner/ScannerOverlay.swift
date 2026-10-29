@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 // Scanner Overlay with area `CropRect` where detection will take a place
 class ScannerOverlay: UIView {
