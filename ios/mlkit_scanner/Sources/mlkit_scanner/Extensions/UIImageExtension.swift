@@ -42,6 +42,9 @@ extension UIImage {
     }
     
     static func fromLibraryAssets(name: String) -> UIImage? {
+        #if SWIFT_PACKAGE
+        return UIImage(named: name, in: Bundle.module, compatibleWith: nil)
+        #else
         let bundlePath = Bundle(for: SwiftMlkitScannerPlugin.self)
             .path(forResource: "Assets", ofType: "bundle")
         guard let path = bundlePath else {
@@ -49,6 +52,7 @@ extension UIImage {
         }
         let bundle = Bundle(path: path)
         return UIImage(named: name, in: bundle, compatibleWith: nil)
+        #endif
     }
 }
 
