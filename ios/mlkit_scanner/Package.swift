@@ -5,7 +5,7 @@ import PackageDescription
 let package = Package(
     name: "mlkit_scanner",
     platforms: [
-        .iOS("15.5")
+        .iOS("15.0")
     ],
     products: [
         .library(name: "mlkit-scanner", targets: ["mlkit_scanner"])
